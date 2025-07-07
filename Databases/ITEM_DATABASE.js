@@ -144,3 +144,6 @@ const ITEM_DATABASE = {
     icon: "./images/teambuilder/items/Tough_Soul.webp",
   },
 }
+
+
+module.exports = ITEM_DATABASE

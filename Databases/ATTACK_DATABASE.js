@@ -386,3 +386,4 @@ const ATTACK_DATABASE = {
   },
 }
 
+module.exports = ATTACK_DATABASE

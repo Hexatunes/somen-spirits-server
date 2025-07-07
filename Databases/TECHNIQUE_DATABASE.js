@@ -193,3 +193,4 @@ const TECHNIQUE_DATABASE = {
   },
 }
 
+module.exports = TECHNIQUE_DATABASE
