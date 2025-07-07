@@ -41,6 +41,7 @@ var battles = {
 }
 
 io.on('connection', (socket) => {
+  console.log(ATTACK_DATABASE)
 
 
   console.log('A user connected:', socket.id);
@@ -380,7 +381,7 @@ io.on('connection', (socket) => {
         var misses = 0
 
         //Needs to account for multi-hit attacks
-        for (var i = 0; i < ATTACK_DATABASE[turnOrder[0]["na"]]["hits"]; i++) {
+        for (var i = 0; i < ATTACK_DATABASE[turnOrder[0]["tech"]]["hits"]; i++) {
 
 
           var bp = ATTACK_DATABASE[turnOrder[0]["na"]]["bp"]
