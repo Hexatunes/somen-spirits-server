@@ -41,7 +41,6 @@ var battles = {
 }
 
 io.on('connection', (socket) => {
-  console.log(ATTACK_DATABASE)
 
 
   console.log('A user connected:', socket.id);
