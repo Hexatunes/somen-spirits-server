@@ -21,11 +21,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hexatunes/somen-spirits-server.git"
+    "url": "git+https://github.com/hexatunes/somen-spirits-server.git"
   },
   "license": "MIT",
   "keywords": [
     "node",
     "glitch"
-  ]
+  ],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/hexatunes/somen-spirits-server/issues"
+  },
+  "homepage": "https://github.com/hexatunes/somen-spirits-server#readme"
 }
