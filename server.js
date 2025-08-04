@@ -134,6 +134,10 @@ io.on('connection', (socket) => {
 
     var bInst = battles[sentBATTLE_ID]
 
+    if ( !bInst ) {
+      return
+    }
+
 
     if (bInst["PLAYER_ONE"]["UID"] >= bInst["PLAYER_TWO"]["UID"]) {
       p1Conduct = true
