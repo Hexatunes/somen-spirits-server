@@ -86,6 +86,10 @@ io.on('connection', (socket) => {
       var playerOne = connectedClients.get(matchmakingQueue[0][0])
       var playerTwo = connectedClients.get(matchmakingQueue[1][0])
 
+      if ( !playerOne || !playerTwo ) {
+        return
+      }
+
       var BATTLE_ID = Math.floor(Math.random() * 100000)
       playerOne.emit("lfg_found", { UID: matchmakingQueue[1][1], BATTLE_ID: BATTLE_ID, username: matchmakingQueue[1][2] })
       playerTwo.emit("lfg_found", { UID: matchmakingQueue[0][1], BATTLE_ID: BATTLE_ID, username: matchmakingQueue[0][2] })
@@ -2616,10 +2620,10 @@ io.on('connection', (socket) => {
     var adjustedMessage = sentMessage.toLowerCase()
     var approved = true
 
-    adjustedMessage = adjustedMessage.replaceAll("1", "i")
-    adjustedMessage = adjustedMessage.replaceAll("4", "a")
-    adjustedMessage = adjustedMessage.replaceAll("3", "e")
-    adjustedMessage = adjustedMessage.replaceAll("0", "o")
+    //adjustedMessage = adjustedMessage.replaceAll("1", "i")
+    //adjustedMessage = adjustedMessage.replaceAll("4", "a")
+    //adjustedMessage = adjustedMessage.replaceAll("3", "e")
+    //adjustedMessage = adjustedMessage.replaceAll("0", "o")
 
     for (var i = 0; i < BANNED_TERMS.length; i++ ) {
       if ( adjustedMessage.includes(BANNED_TERMS[i]) ) {
