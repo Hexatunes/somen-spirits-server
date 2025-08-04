@@ -515,7 +515,7 @@ const SKILL_DATABASE = {
   },
   "rubberneck" : {
       "events" : ["naDamage", "techDamage"],
-      "naDamage":  function naDamage(p1Team, p2Team, targetSide, targetIDX, turnOrder, pendingDamage, skillOrder, skillSide, skillIDX, crits, bp) {
+      "naDamage":  function naDamage(p1Team, p2Team, targetSide, targetIDX, turnOrder, pendingDamage, skillOrder, skillSide, skillIDX, crits, bp, res) {
 
         var d1
         var userSTR = turnOrder[0]["str"]
@@ -569,7 +569,7 @@ const SKILL_DATABASE = {
         }
         
       },
-      "techDamage":  function techDamage(p1Team, p2Team, targetSide, targetIDX, turnOrder, pendingDamage, skillOrder, skillSide, skillIDX, crits, bp) {
+      "techDamage":  function techDamage(p1Team, p2Team, targetSide, targetIDX, turnOrder, pendingDamage, skillOrder, skillSide, skillIDX, crits, bp, res) {
         var d1
         var userSTR = turnOrder[0]["str"]
         var targetDEF = 0

@@ -1023,12 +1023,21 @@ var isMatchmakingBusy = false
 
         
         var bp = ATTACK_DATABASE[turnOrder[0]["na"]]["bp"]
+        var attribute = ATTACK_DATABASE[turnOrder[0]["na"]]["attribute"]
+
+        var res = 1
+
 
 
         //------------ Check for skills that activate when TAKING NA DAMAGE ------------
         for (var i = 0; i < p1Team.length; i++) {
+          if (attribute == "none") {
+              res = 1
+            } else {
+              res = YOKAI_DATABASE[p1Team[targetIDX]["code"]][attribute]
+            }
           if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("naDamage") > -1) {
-            var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["naDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp)
+            var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["naDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp, res)
             if (dataReturned != "skip") {
               newTeam1 = dataReturned[0]
               newTeam2 = dataReturned[1]
@@ -1039,8 +1048,13 @@ var isMatchmakingBusy = false
         }
 
         for (var i = 0; i < p2Team.length; i++) {
+          if (attribute == "none") {
+              res = 1
+            } else {
+              res = YOKAI_DATABASE[p2Team[targetIDX]["code"]][attribute]
+            }
           if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("naDamage") > -1) {
-            var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["naDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp)
+            var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["naDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp, res)
             if (dataReturned != "skip") {
               newTeam1 = dataReturned[0]
               newTeam2 = dataReturned[1]
@@ -1198,11 +1212,19 @@ var isMatchmakingBusy = false
 
 
           var bp = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["bp"]
+          var attribute = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["attribute"]
+          var res = 1
+
 
           //------------ Check for skills that activate when TAKING TECH DAMAGE ------------
           for (var i = 0; i < p1Team.length; i++) {
+            if (attribute == "none") {
+              res = 1
+            } else {
+              res = YOKAI_DATABASE[p1Team[targetIDX]["code"]][attribute]
+            }
             if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp)
+              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp, res)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1213,8 +1235,13 @@ var isMatchmakingBusy = false
           }
 
           for (var i = 0; i < p2Team.length; i++) {
+            if (attribute == "none") {
+              res = 1
+            } else {
+              res = YOKAI_DATABASE[p2Team[targetIDX]["code"]][attribute]
+            }
             if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp)
+              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp, res)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1338,11 +1365,21 @@ var isMatchmakingBusy = false
           var newTeam2
 
           var bp = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["bp"]
+          var attribute = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["attribute"]
+
+          var res = 1
+
+          
 
           //------------ Check for skills that activate when TAKING TECH DAMAGE ------------
           for (var i = 0; i < p1Team.length; i++) {
+            if (attribute == "none") {
+              res = 1
+            } else {
+              res = YOKAI_DATABASE[p1Team[targetIDX]["code"]][attribute]
+            }
             if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp)
+              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp, res)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1353,8 +1390,13 @@ var isMatchmakingBusy = false
           }
 
           for (var i = 0; i < p2Team.length; i++) {
+            if (attribute == "none") {
+              res = 1
+            } else {
+              res = YOKAI_DATABASE[p2Team[targetIDX]["code"]][attribute]
+            }
             if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp)
+              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp, res)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1511,11 +1553,18 @@ var isMatchmakingBusy = false
           var newTeam2
 
           var bp = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["bp"]
+          var attribute = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["attribute"]
+          var res = 1
 
           //------------ Check for skills that activate when TAKING TECH DAMAGE ------------
           for (var i = 0; i < p1Team.length; i++) {
+            if (attribute == "none") {
+              res = 1
+            } else {
+              res = YOKAI_DATABASE[p1Team[targetIDX]["code"]][attribute]
+            }
             if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp)
+              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp, res)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1526,8 +1575,13 @@ var isMatchmakingBusy = false
           }
 
           for (var i = 0; i < p2Team.length; i++) {
+            if (attribute == "none") {
+              res = 1
+            } else {
+              res = YOKAI_DATABASE[p2Team[targetIDX]["code"]][attribute]
+            }
             if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp)
+              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp, res)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -2940,7 +2994,7 @@ function validate_team(sentTeam) {
   var sCount = 0
   var aCount = 0
 
-  for (var i = 1; i < sentTeam.length; i++) {
+  for (var i = 0; i < sentTeam.length; i++) {
     var yokai = sentTeam[i]
 
     var totalIVs = Math.abs(parseInt(yokai.ivHP)) + Math.abs(parseInt(yokai.ivSTR)) + Math.abs(parseInt(yokai.ivSPR)) + Math.abs(parseInt(yokai.ivDEF)) + Math.abs(parseInt(yokai.ivSPD))
