@@ -68,6 +68,7 @@ io.on('connection', (socket) => {
 
     if (teamIsValid != "valid") {
       connectedClients.get(socket.id).emit("lfg_validity", teamIsValid)
+      return
     }
 
     connectedClients.get(socket.id).emit("lfg_validity", "valid")
