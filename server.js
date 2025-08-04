@@ -2569,12 +2569,14 @@ io.on('connection', (socket) => {
 
     var bInst = battles[sentBATTLE_ID]
 
-    var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
-    var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
-
     if ( !bInst ) {
       return
     }
+
+    var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
+    var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
+
+    
 
     if ( !p1 ) {
       if ( p2 ) {
@@ -2636,12 +2638,14 @@ io.on('connection', (socket) => {
 
     var bInst = battles[sentBATTLE_ID]
 
-    var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
-    var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
-
     if ( !bInst ) {
       return
     }
+
+    var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
+    var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
+
+    
 
     if ( !p1 ) {
       if ( p2 ) {
@@ -2678,12 +2682,14 @@ io.on('connection', (socket) => {
     var bInst = battles[sentBATTLE_ID]
     var purifySide = -1
 
-    var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
-    var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
-
     if ( !bInst ) {
       return
     }
+
+    var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
+    var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
+
+    
 
     if ( !p1 ) {
       if ( p2 ) {
@@ -2738,12 +2744,14 @@ io.on('connection', (socket) => {
   socket.on('poke_damage', (sentBATTLE_ID, sentUID, sentIDX) => {
     var bInst = battles[sentBATTLE_ID]
 
+     if ( !bInst ) {
+      return
+    }
+
     var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
     var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
 
-    if ( !bInst ) {
-      return
-    }
+   
 
     if ( !p1 ) {
       if ( p2 ) {
@@ -2791,12 +2799,14 @@ io.on('connection', (socket) => {
   socket.on('poke_soul', (sentBATTLE_ID, sentUID, sentIDX) => {
     var bInst = battles[sentBATTLE_ID]
 
-    var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
-    var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
-
     if ( !bInst ) {
       return
     }
+
+    var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
+    var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
+
+    
 
     if ( !p1 ) {
       if ( p2 ) {
