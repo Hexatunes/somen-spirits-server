@@ -2505,6 +2505,9 @@ io.on('connection', (socket) => {
     var otherTeam
 
     var bInst = battles[sentBATTLE_ID]
+    if ( !bInst ) {
+      return
+    }
     var p1Team = bInst["PLAYER_ONE"]["TEAM"]
     var p2Team = bInst["PLAYER_TWO"]["TEAM"]
 
@@ -2529,6 +2532,9 @@ io.on('connection', (socket) => {
     var otherTeam
 
     var bInst = battles[sentBATTLE_ID]
+    if ( !bInst ) {
+      return
+    }
     var p1Team = bInst["PLAYER_ONE"]["TEAM"]
     var p2Team = bInst["PLAYER_TWO"]["TEAM"]
 
