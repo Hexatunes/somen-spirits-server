@@ -199,7 +199,7 @@ io.on('connection', (socket) => {
 
       bInst["PLAYER_ONE"]["TEAM"][i].down = false
       bInst["PLAYER_ONE"]["TEAM"][i].currentHP = 0
-      bInst["PLAYER_ONE"]["TEAM"][i].soul = 100
+      bInst["PLAYER_ONE"]["TEAM"][i].soul = 0
       bInst["PLAYER_ONE"]["TEAM"][i].guard = 1
       bInst["PLAYER_ONE"]["TEAM"][i].currentInspirits = []
       bInst["PLAYER_ONE"]["TEAM"][i].charging = "none"
@@ -227,7 +227,7 @@ io.on('connection', (socket) => {
 
       bInst["PLAYER_TWO"]["TEAM"][i].down = false
       bInst["PLAYER_TWO"]["TEAM"][i].currentHP = 0
-      bInst["PLAYER_TWO"]["TEAM"][i].soul = 100
+      bInst["PLAYER_TWO"]["TEAM"][i].soul = 0
       bInst["PLAYER_TWO"]["TEAM"][i].guard = 1
       bInst["PLAYER_TWO"]["TEAM"][i].currentInspirits = []
       bInst["PLAYER_TWO"]["TEAM"][i].charging = "none"
@@ -1000,13 +1000,13 @@ io.on('connection', (socket) => {
         }
 
         
-
+        var bp = ATTACK_DATABASE[turnOrder[0]["na"]]["bp"]
 
 
         //------------ Check for skills that activate when TAKING NA DAMAGE ------------
         for (var i = 0; i < p1Team.length; i++) {
           if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("naDamage") > -1) {
-            var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["naDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits)
+            var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["naDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp)
             if (dataReturned != "skip") {
               newTeam1 = dataReturned[0]
               newTeam2 = dataReturned[1]
@@ -1018,7 +1018,7 @@ io.on('connection', (socket) => {
 
         for (var i = 0; i < p2Team.length; i++) {
           if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("naDamage") > -1) {
-            var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["naDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits)
+            var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["naDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp)
             if (dataReturned != "skip") {
               newTeam1 = dataReturned[0]
               newTeam2 = dataReturned[1]
@@ -1175,11 +1175,12 @@ io.on('connection', (socket) => {
           var newTeam2
 
 
+          var bp = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["bp"]
 
           //------------ Check for skills that activate when TAKING TECH DAMAGE ------------
           for (var i = 0; i < p1Team.length; i++) {
             if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits)
+              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1191,7 +1192,7 @@ io.on('connection', (socket) => {
 
           for (var i = 0; i < p2Team.length; i++) {
             if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits)
+              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1314,12 +1315,12 @@ io.on('connection', (socket) => {
           var newTeam1
           var newTeam2
 
-
+          var bp = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["bp"]
 
           //------------ Check for skills that activate when TAKING TECH DAMAGE ------------
           for (var i = 0; i < p1Team.length; i++) {
             if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i)
+              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1331,7 +1332,7 @@ io.on('connection', (socket) => {
 
           for (var i = 0; i < p2Team.length; i++) {
             if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i)
+              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1487,12 +1488,12 @@ io.on('connection', (socket) => {
           var newTeam1
           var newTeam2
 
-
+          var bp = TECHNIQUE_DATABASE[turnOrder[0]["tech"]]["bp"]
 
           //------------ Check for skills that activate when TAKING TECH DAMAGE ------------
           for (var i = 0; i < p1Team.length; i++) {
             if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i)
+              var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p1Team[i]["order"], 1, i, crits, bp)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
@@ -1504,7 +1505,7 @@ io.on('connection', (socket) => {
 
           for (var i = 0; i < p2Team.length; i++) {
             if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("techDamage") > -1) {
-              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i)
+              var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["techDamage"](p1Team, p2Team, targetSide, targetIDX, turnOrder, finalDamage, p2Team[i]["order"], 2, i, crits, bp)
               if (dataReturned != "skip") {
                 newTeam1 = dataReturned[0]
                 newTeam2 = dataReturned[1]
