@@ -1111,7 +1111,7 @@ var isMatchmakingBusy = false
           for ( var i = 0; i < p1Team[targetIDX]["items"].length; i++ ) {
             if ( p1Team[targetIDX]["items"][i]["displayName"] == "1HP Soul" && p1Team[targetIDX]["items"][i]["itemData"] == 0) {
               has1HPSoul = true
-              hpSoulIDX = x
+              hpSoulIDX = i
             }
           }
 
@@ -1139,7 +1139,7 @@ var isMatchmakingBusy = false
           for ( var i = 0; i < p2Team[targetIDX]["items"].length; i++ ) {
             if ( p2Team[targetIDX]["items"][i]["displayName"] == "1HP Soul" && p2Team[targetIDX]["items"][i]["itemData"] == 0) {
               has1HPSoul = true
-              hpSoulIDX = x
+              hpSoulIDX = i
             }
           }
 
@@ -1427,7 +1427,7 @@ var isMatchmakingBusy = false
             for ( var i = 0; i < p1Team[targetIDX]["items"].length; i++ ) {
               if ( p1Team[targetIDX]["items"][i]["displayName"] == "1HP Soul" && p1Team[targetIDX]["items"][i]["itemData"] == 0) {
                 has1HPSoul = true
-                hpSoulIDX = x
+                hpSoulIDX = i
               }
             }
 
@@ -1450,7 +1450,7 @@ var isMatchmakingBusy = false
             for ( var i = 0; i < p2Team[targetIDX]["items"].length; i++ ) {
               if ( p2Team[targetIDX]["items"][i]["displayName"] == "1HP Soul" && p2Team[targetIDX]["items"][i]["itemData"] == 0) {
                 has1HPSoul = true
-                hpSoulIDX = x
+                hpSoulIDX = i
               }
             }
 
@@ -1613,7 +1613,7 @@ var isMatchmakingBusy = false
             for ( var i = 0; i < p1Team[targetIDX]["items"].length; i++ ) {
               if ( p1Team[targetIDX]["items"][i]["displayName"] == "1HP Soul" && p1Team[targetIDX]["items"][i]["itemData"] == 0) {
                 has1HPSoul = true
-                hpSoulIDX = x
+                hpSoulIDX = i
               }
             }
 
@@ -1635,7 +1635,7 @@ var isMatchmakingBusy = false
             for ( var i = 0; i < p2Team[targetIDX]["items"].length; i++ ) {
               if ( p2Team[targetIDX]["items"][i]["displayName"] == "1HP Soul" && p2Team[targetIDX]["items"][i]["itemData"] == 0) {
                 has1HPSoul = true
-                hpSoulIDX = x
+                hpSoulIDX = i
               }
             }
 
