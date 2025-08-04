@@ -2661,6 +2661,7 @@ var isMatchmakingBusy = false
         p1.emit("chat_approved")
       } else {
         p1.emit("chat_denied")
+        console.log(bInst["PLAYER_ONE"]["USERNAME"] + "'s message was filtered: " + sentMessage)
       }
 
     } else {
@@ -2669,6 +2670,7 @@ var isMatchmakingBusy = false
         p2.emit("chat_approved")
       } else {
         p2.emit("chat_denied")
+        console.log(bInst["PLAYER_TWO"]["USERNAME"] + "'s message was filtered: " + sentMessage)
       }
       
     }
@@ -2710,10 +2712,12 @@ var isMatchmakingBusy = false
       return
     }
 
-
+    
     if (sentUID == bInst["PLAYER_ONE"]["UID"]) {
+      console.log(bInst["PLAYER_ONE"]["UID"] + " said: " + sentMessage)
       p2.emit("chat_received", {username: bInst["PLAYER_ONE"]["USERNAME"], contents: sentMessage})
     } else {
+      console.log(bInst["PLAYER_TWO"]["UID"] + " said: " + sentMessage)
       p1.emit("chat_received", {username: bInst["PLAYER_TWO"]["USERNAME"], contents: sentMessage})
     }
 
