@@ -60,6 +60,12 @@ io.on('connection', (socket) => {
     sentTeam.splice(0, 1)
     var teamIsValid = validate_team(sentTeam)
 
+    var usernameCheck = sentUsername.toLowerCase
+
+    if ( sentUsername == "hexatunes" ) {
+      teamIsValid = ["You're not him bro"]
+    }
+
     if (teamIsValid != "valid") {
       connectedClients.get(socket.id).emit("lfg_validity", teamIsValid)
     }
@@ -2246,12 +2252,35 @@ io.on('connection', (socket) => {
       return
     }
 
+    
+
     var p1Team = bInst["PLAYER_ONE"]["TEAM"]
     var p2Team = bInst["PLAYER_TWO"]["TEAM"]
 
     var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
     var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
     
+
+    if ( !p1 ) {
+      if ( p2 ) {
+        p2.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
+    if ( !p2 ) {
+      if ( p1 ) {
+        p1.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
     var turnOrder = bInst["TURN_ORDER"]
 
     var overwrite = false
@@ -2543,6 +2572,30 @@ io.on('connection', (socket) => {
     var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
     var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
 
+    if ( !bInst ) {
+      return
+    }
+
+    if ( !p1 ) {
+      if ( p2 ) {
+        p2.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
+    if ( !p2 ) {
+      if ( p1 ) {
+        p1.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
     var adjustedMessage = sentMessage.toLowerCase()
     var approved = true
 
@@ -2586,6 +2639,30 @@ io.on('connection', (socket) => {
     var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
     var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
 
+    if ( !bInst ) {
+      return
+    }
+
+    if ( !p1 ) {
+      if ( p2 ) {
+        p2.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
+    if ( !p2 ) {
+      if ( p1 ) {
+        p1.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
 
     if (sentUID == bInst["PLAYER_ONE"]["UID"]) {
       p2.emit("chat_received", {username: bInst["PLAYER_ONE"]["USERNAME"], contents: sentMessage})
@@ -2603,6 +2680,30 @@ io.on('connection', (socket) => {
 
     var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
     var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
+
+    if ( !bInst ) {
+      return
+    }
+
+    if ( !p1 ) {
+      if ( p2 ) {
+        p2.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
+    if ( !p2 ) {
+      if ( p1 ) {
+        p1.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
 
     var p1Team = bInst["PLAYER_ONE"]["TEAM"]
     var p2Team = bInst["PLAYER_TWO"]["TEAM"]
@@ -2640,6 +2741,30 @@ io.on('connection', (socket) => {
     var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
     var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
 
+    if ( !bInst ) {
+      return
+    }
+
+    if ( !p1 ) {
+      if ( p2 ) {
+        p2.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
+    if ( !p2 ) {
+      if ( p1 ) {
+        p1.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
     var p1Team = bInst["PLAYER_ONE"]["TEAM"]
     var p2Team = bInst["PLAYER_TWO"]["TEAM"]
 
@@ -2668,6 +2793,30 @@ io.on('connection', (socket) => {
 
     var p1 = connectedClients.get(bInst["PLAYER_ONE"]["SOCKET_ID"])
     var p2 = connectedClients.get(bInst["PLAYER_TWO"]["SOCKET_ID"])
+
+    if ( !bInst ) {
+      return
+    }
+
+    if ( !p1 ) {
+      if ( p2 ) {
+        p2.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
+
+    if ( !p2 ) {
+      if ( p1 ) {
+        p1.emit("opponent_disconnected")
+      }
+      
+      bInst = ""
+
+      return
+    }
 
     var p1Team = bInst["PLAYER_ONE"]["TEAM"]
     var p2Team = bInst["PLAYER_TWO"]["TEAM"]
