@@ -170,6 +170,10 @@ io.on('connection', (socket) => {
 
     var bInst = battles[sentBATTLE_ID]
 
+    if ( !bInst ) {
+      return
+    }
+
 
     var player = connectedClients.get(socket.id)
     
@@ -2561,6 +2565,10 @@ io.on('connection', (socket) => {
   socket.on('pinned', (sentBATTLE_ID, sentUID, sentPin) => {
 
     var bInst = battles[sentBATTLE_ID]
+
+    if ( !bInst ) {
+      return
+    }
 
     if (sentUID == bInst["PLAYER_ONE"]["UID"]) {
       bInst["PLAYER_ONE"]["PINNED"] = sentPin
