@@ -2910,12 +2910,14 @@ io.on('connection', (socket) => {
 function validate_team(sentTeam) {
   var problems = []
 
+  var sCount = 0
+  var aCount = 0
 
   for (var i = 1; i < sentTeam.length; i++) {
     var yokai = sentTeam[i]
 
-    var totalIVs = parseInt(yokai.ivHP) + parseInt(yokai.ivSTR) + parseInt(yokai.ivSPR) + parseInt(yokai.ivDEF) + parseInt(yokai.ivSPD)
-    var totalEVs = parseInt(yokai.evHP) + parseInt(yokai.evSTR) + parseInt(yokai.evSPR) + parseInt(yokai.evDEF) + parseInt(yokai.evSPD)
+    var totalIVs = Math.abs(parseInt(yokai.ivHP)) + Math.abs(parseInt(yokai.ivSTR)) + Math.abs(parseInt(yokai.ivSPR)) + Math.abs(parseInt(yokai.ivDEF)) + Math.abs(parseInt(yokai.ivSPD))
+    var totalEVs = Math.abs(parseInt(yokai.evHP)) + Math.abs(parseInt(yokai.evSTR)) + Math.abs(parseInt(yokai.evSPR)) + Math.abs(parseInt(yokai.evDEF)) + Math.abs(parseInt(yokai.evSPD))
 
     if (40 - totalIVs < 0) {
       problems.push(" " + yokai.displayName + " has too many IVs!")
@@ -2940,6 +2942,27 @@ function validate_team(sentTeam) {
       problems.push(" " + yokai.displayName + " has multiple stats with gp boosts!")
     }
 
+    if ( YOKAI_DATABASE[sentTeam[i]["code"]]["rank"] == "S" ) {
+      sCount += 1
+    }
+    if ( YOKAI_DATABASE[sentTeam[i]["code"]]["rank"] == "A" ) {
+      aCount += 1
+    }
+
+    
+
+  }
+
+  if ( sentTeam.length != 6 ) {
+    problems.push("Not enough yokai! Please fill your entire team!")
+  }
+
+  if ( sCount > 2 ) {
+    problems.push("Too many S rank yokai! You can only have 2 on a team!")
+  }
+
+  if ( aCount > 2 ) {
+    problems.push("Too many A rank yokai! You can only have 2 on a team!")
   }
 
   if (problems.length == 0) {
