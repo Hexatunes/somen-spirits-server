@@ -51,10 +51,15 @@ io.on('connection', (socket) => {
   connectedClients.set(socket.id, socket);
 
 
-
+var isMatchmakingBusy = false
 
   // --- RANDOM MATCHMAKING --- 🆚
   socket.on('lfg', (sentUID, sentTeam, sentUsername) => {
+    if ( isMatchmakingBusy ) {
+      return
+    }
+
+    isMatchmakingBusy = true
 
     //Validate team
     sentTeam.splice(0, 1)
@@ -79,6 +84,9 @@ io.on('connection', (socket) => {
 
     //Add player to queue
     matchmakingQueue.push([socket.id, sentUID, sentUsername, sentTeam])
+    for ( var i = 0; i < matchmakingQueue.length; i++ ) {
+      console.log(matchmakingQueue[i][2])
+    }
 
     if (matchmakingQueue.length >= 2) {
 
@@ -87,6 +95,7 @@ io.on('connection', (socket) => {
       var playerTwo = connectedClients.get(matchmakingQueue[1][0])
 
       if ( !playerOne || !playerTwo ) {
+        isMatchmakingBusy = false
         return
       }
 
@@ -118,14 +127,27 @@ io.on('connection', (socket) => {
 
       }
       //Remove players from queue
-      matchmakingQueue.shift()
-      matchmakingQueue.shift()
+      console.log("Battle started between " + matchmakingQueue[0][2] + " and " + matchmakingQueue[1][2] + "!")
+      
+      const index1 = matchmakingQueue.findIndex(entry => entry[0] === playerOne.id);
+      const index2 = matchmakingQueue.findIndex(entry => entry[0] === playerTwo.id);
+
+      // Make sure both were found
+      if (index1 !== -1) matchmakingQueue.splice(index1, 1);
+      if (index2 !== -1 && index2 !== index1) matchmakingQueue.splice(index2 > index1 ? index2 - 1 : index2, 1);
+
+      for ( var i = 0; i < matchmakingQueue.length; i++ ) {
+        console.log(matchmakingQueue[i][2])
+      }
+
+      
     }
+    isMatchmakingBusy = false
   });
 
   //Cancel matchmaking
   socket.on('cancel_lfg', (sentUID) => {
-    for (var i = 0; i < matchmakingQueue.length; i++) {
+    for (var i = matchmakingQueue.length - 1; i >= 0 ; i--) {
       if (matchmakingQueue[i][1] == sentUID) {
         matchmakingQueue.splice(i, 1)
         break
@@ -2503,6 +2525,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('A user disconnected:', socket.id);
+    matchmakingQueue = matchmakingQueue.filter(entry => entry[0] !== socket.id);
     
     connectedClients.delete(socket.id)
   });
@@ -2920,10 +2943,10 @@ function validate_team(sentTeam) {
     var totalEVs = Math.abs(parseInt(yokai.evHP)) + Math.abs(parseInt(yokai.evSTR)) + Math.abs(parseInt(yokai.evSPR)) + Math.abs(parseInt(yokai.evDEF)) + Math.abs(parseInt(yokai.evSPD))
 
     if (40 - totalIVs < 0) {
-      problems.push(" " + yokai.displayName + " has too many IVs!")
+      problems.push(" " + YOKAI_DATABASE[yokai.code]["displayName"] + " has too many IVs!")
     }
     if (26 - totalEVs < 0) {
-      problems.push(" " + yokai.displayName + " has too many EVs!")
+      problems.push(" " + YOKAI_DATABASE[yokai.code]["displayName"] + " has too many EVs!")
     }
 
     var noGP = 0
@@ -2934,12 +2957,12 @@ function validate_team(sentTeam) {
         noGP += 1
       }
       if (yokai["gp" + statsCAPS[j]] > 5) {
-        problems.push(" " + yokai.displayName + " has too many GP in " + statsCAPS[i] + "! (Max is 5)")
+        problems.push(" " + YOKAI_DATABASE[yokai.code]["displayName"] + " has too many GP in " + statsCAPS[i] + "! (Max is 5)")
       }
     }
 
     if (noGP > 1) {
-      problems.push(" " + yokai.displayName + " has multiple stats with gp boosts!")
+      problems.push(" " + YOKAI_DATABASE[yokai.code]["displayName"] + " has multiple stats with gp boosts!")
     }
 
     if ( YOKAI_DATABASE[sentTeam[i]["code"]]["rank"] == "S" ) {
