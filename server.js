@@ -3316,6 +3316,7 @@ function technique(p1Team, p2Team, targetSide, targetIDX, turnOrder, critRoll) {
 }
 
 function inspirit(p1Team, p2Team, targetSide, targetIDX, turnOrder) {
+  console.log("Insp: " + turnOrder[0]["insp"])
   
   var type = INSPIRIT_DATABASE[turnOrder[0]["insp"]]["type"]
 
