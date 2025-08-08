@@ -693,6 +693,7 @@ var isMatchmakingBusy = false
     }
 
 
+
     // --- Check if the yokai is charging a soult, if so, skip turn ---
     if ( turnOrder[0]["charging"] == "chargING") {
       p1.emit("turn_advanced", { myTeam: p1Team, otherTeam: p2Team, chatMessage: turnOrder[0]["displayName"] + " is charging a soultimate. Skipping their turn."})
@@ -1603,14 +1604,14 @@ var isMatchmakingBusy = false
           for (var x = 0; x < 3; x++){
             for (var i = 0; i < SOULTIMATE_DATABASE[turnOrder[0].soult].hits; i++) {
 
-
               var bp = SOULTIMATE_DATABASE[turnOrder[0].soult].bp
               var attribute = SOULTIMATE_DATABASE[turnOrder[0].soult].attribute
 
               //------------ Check for skills that activate when CALCULATING CRIT ROLL ------------
-              for (var i = 0; i < p1Team.length; i++) {
-                if (SKILL_DATABASE[p1Team[i]["skill"]]["events"].indexOf("soultRollCrit") > -1) {
-                  var dataReturned = SKILL_DATABASE[p1Team[i]["skill"]]["soultRollCrit"](p1Team, p2Team, targetSide, targetIDX, turnOrder, p1Team[i]["order"], 1, i)
+              for (var j = 0; j < p1Team.length; j++) {
+                if (SKILL_DATABASE[p1Team[j]["skill"]]["events"].indexOf("soultRollCrit") > -1) {
+
+                  var dataReturned = SKILL_DATABASE[p1Team[j]["skill"]]["soultRollCrit"](p1Team, p2Team, targetSide, targetIDX, turnOrder, p1Team[j]["order"], 1, j)
                   if (dataReturned != "skip") {
                     critRoll = dataReturned[0]
                   }
@@ -1618,17 +1619,18 @@ var isMatchmakingBusy = false
                 }
               }
 
-              for (var i = 0; i < p2Team.length; i++) {
-                if (SKILL_DATABASE[p2Team[i]["skill"]]["events"].indexOf("soultRollCrit") > -1) {
-                  var dataReturned = SKILL_DATABASE[p2Team[i]["skill"]]["soultRollCrit"](p1Team, p2Team, targetSide, targetIDX, turnOrder, p2Team[i]["order"], 2, i)
+              for (var j = 0; j < p2Team.length; j++) {
+                if (SKILL_DATABASE[p2Team[j]["skill"]]["events"].indexOf("soultRollCrit") > -1) {
+
+                  var dataReturned = SKILL_DATABASE[p2Team[j]["skill"]]["soultRollCrit"](p1Team, p2Team, targetSide, targetIDX, turnOrder, p2Team[j]["order"], 2, j)
                   if (dataReturned != "skip") {
                     critRoll = dataReturned[0]
                   }
-
 
                 }
               }
               //-----------------------------------------------------------------------------
+
               
               d1 = soultimate(p1Team, p2Team, targetSide, x, turnOrder, critRoll, moxieBuff)
               finalDamage += d1[0]
@@ -1636,6 +1638,7 @@ var isMatchmakingBusy = false
               misses += d1[2]
 
             }
+
 
             if (targetSide == 1) {
 
@@ -1747,8 +1750,8 @@ var isMatchmakingBusy = false
                 }
                 
 
-                p1.emit("soultimate_used", { myTeam: p1Team, otherTeam: p2Team, chatMessage: "Opponent's " + turnOrder[0]["displayName"] + " used <em id = 'soult'>" + SOULTIMATE_DATABASE[turnOrder[0]["soult"]]["displayName"] + "</em id = 'soult'> on your " + p2Team[x]["displayName"] + "! Damage: <em id = 'damage'>" + finalDamage + "</em id = 'damage'> (<em id = 'damage'>" + (Math.floor(finalDamage / p2Team[x]["hp"] * 100)) + "</em id = 'damage'>%)", crits: crits, misses: misses, soult: turnOrder[0]["soult"], moxieBuff: moxieBuff })
-                p2.emit("soultimate_used", { myTeam: p2Team, otherTeam: p1Team, chatMessage: "Your " + turnOrder[0]["displayName"] + " used <em id = 'soult'>" + SOULTIMATE_DATABASE[turnOrder[0]["soult"]]["displayName"] + "</em id = 'soult'> on the opponent's " + p2Team[x]["displayName"] + "! Damage: <em id = 'damage'>" + finalDamage + "</em id = 'damage'> (<em id = 'damage'>" + (Math.floor(finalDamage / p2Team[x]["hp"] * 100)) + "</em id = 'damage'>%)", crits: crits, misses: misses, soult: turnOrder[0]["soult"], moxieBuff: moxieBuff })
+                p1.emit("soultimate_used", { myTeam: p1Team, otherTeam: p2Team, chatMessage: "Your " + turnOrder[0]["displayName"] + " used <em id = 'soult'>" + SOULTIMATE_DATABASE[turnOrder[0]["soult"]]["displayName"] + "</em id = 'soult'> on the opponent's " + p2Team[x]["displayName"] + "! Damage: <em id = 'damage'>" + finalDamage + "</em id = 'damage'> (<em id = 'damage'>" + (Math.floor(finalDamage / p2Team[x]["hp"] * 100)) + "</em id = 'damage'>%)", crits: crits, misses: misses, soult: turnOrder[0]["soult"], moxieBuff: moxieBuff })
+                p2.emit("soultimate_used", { myTeam: p2Team, otherTeam: p1Team, chatMessage: "Opponent's " + turnOrder[0]["displayName"] + " used <em id = 'soult'>" + SOULTIMATE_DATABASE[turnOrder[0]["soult"]]["displayName"] + "</em id = 'soult'> on the your " + p2Team[x]["displayName"] + "! Damage: <em id = 'damage'>" + finalDamage + "</em id = 'damage'> (<em id = 'damage'>" + (Math.floor(finalDamage / p2Team[x]["hp"] * 100)) + "</em id = 'damage'>%)", crits: crits, misses: misses, soult: turnOrder[0]["soult"], moxieBuff: moxieBuff })
               }
 
               turnOrder[0]["charging"] = "none"
@@ -2661,10 +2664,10 @@ var isMatchmakingBusy = false
 
     
     if (sentUID == bInst["PLAYER_ONE"]["UID"]) {
-      console.log(bInst["PLAYER_ONE"]["UID"] + " said: " + sentMessage)
+      console.log(bInst["PLAYER_ONE"]["USERNAME"] + " said: " + sentMessage)
       p2.emit("chat_received", {username: bInst["PLAYER_ONE"]["USERNAME"], contents: sentMessage})
     } else {
-      console.log(bInst["PLAYER_TWO"]["UID"] + " said: " + sentMessage)
+      console.log(bInst["PLAYER_TWO"]["USERNAME"] + " said: " + sentMessage)
       p1.emit("chat_received", {username: bInst["PLAYER_TWO"]["USERNAME"], contents: sentMessage})
     }
 
@@ -2912,7 +2915,9 @@ function pickTargetIndex(team) {
         return !(hasStealth && aliveCount > 1);
     });
 
-    if (validIdxs.length === 0) return null;
+    if (validIdxs.length === 0) {
+        validIdxs = aliveIdxs;
+    }
     return validIdxs[Math.floor(Math.random() * validIdxs.length)];
 }
 
