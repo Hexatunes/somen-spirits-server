@@ -516,7 +516,7 @@ var isMatchmakingBusy = false
         if ( p1Team[i]["currentInspirits"][x]["age"] <= 5 ) {
           p1Team[i]["currentInspirits"][x]["age"] += 1
         } else {
-          switch ( p1Team[i]["currentInspirits"][x]["tag"][0] ) {
+          switch ( p1Team[i]["currentInspirits"][x]["tag"] ) {
             case "strUp":
 
               p1Team[i]["str"] -= 50
@@ -582,7 +582,7 @@ var isMatchmakingBusy = false
         if ( p2Team[i]["currentInspirits"][x]["age"] <= 5 ) {
           p2Team[i]["currentInspirits"][x]["age"] += 1
         } else {
-          switch ( p2Team[i]["currentInspirits"][x]["tag"][0] ) {
+          switch ( p2Team[i]["currentInspirits"][x]["tag"] ) {
             case "strUp":
 
               p2Team[i]["str"] -= 50
@@ -668,81 +668,28 @@ var isMatchmakingBusy = false
       targetSide = 1
     }
 
+    var targetIDX = -1
+
+    // --- Check for pin target override ---
+    if (turnOrder[0]["UID"] == p1UID) {
+      if ( bInst["PLAYER_ONE"]["PINNED"] > -1) {
+        targetIDX = bInst["PLAYER_ONE"]["PINNED"]
+      }
+    } else {
+      if ( bInst["PLAYER_TWO"]["PINNED"] > -1) {
+        targetIDX = bInst["PLAYER_TWO"]["PINNED"]
+      }
+    }
+
     // --- Determine possible targets and who's acting ---
     if ( targetSide == 1 ) {
 
-      for ( var i = 0; i < 3; i++ ) {
-
-        var canAdd = true
-
-        for ( var x = 0; x < p1Team[i]["items"].length; x++ ) {
-
-          if ( p1Team[i]["items"][x]["displayName"] == "Stealth Soul" ) {
-            canAdd = false
-          }
-
-        }
-
-        if ( i == 0 ) {
-          if ( p1Team[1]["currentHP"] <= 0 && p1Team[2]["currentHP"] <= 0 ) {
-            canAdd = true
-          }
-        } else if ( i == 1) {
-          if ( p1Team[0]["currentHP"] <= 0 && p1Team[2]["currentHP"] <= 0 ) {
-            canAdd = true
-          }
-        } else {
-          if ( p1Team[0]["currentHP"] <= 0 && p1Team[1]["currentHP"] <= 0 ) {
-            canAdd = true
-          }
-        }
-
-        if ( p1Team[i]["currentHP"] < 0 ) {
-          canAdd = false
-        }
-
-        if ( canAdd ) {
-          possibleChoices.push(i)
-        }
-
-      }
+      targetIDX = pickTargetIndex([p1Team[0], p1Team[1], p1Team[2]])
 
     } else {
-      for ( var i = 0; i < 3; i++ ) {
+      
+      targetIDX = pickTargetIndex([p2Team[0], p2Team[1], p2Team[2]])
 
-        var canAdd = true
-
-        for ( var x = 0; x < p2Team[i]["items"].length; x++ ) {
-
-          if ( p2Team[i]["items"][x]["displayName"] == "Stealth Soul" ) {
-            canAdd = false
-          }
-
-        }
-
-        if ( i == 0 ) {
-          if ( p2Team[1]["currentHP"] <= 0 && p2Team[2]["currentHP"] <= 0 ) {
-            canAdd = true
-          }
-        } else if ( i == 1) {
-          if ( p2Team[0]["currentHP"] <= 0 && p2Team[2]["currentHP"] <= 0 ) {
-            canAdd = true
-          }
-        } else {
-          if ( p2Team[0]["currentHP"] <= 0 && p2Team[1]["currentHP"] <= 0 ) {
-            canAdd = true
-          }
-        }
-
-        if ( p2Team[i]["currentHP"] < 0 ) {
-          canAdd = false
-        }
-
-        if ( canAdd ) {
-          possibleChoices.push(i)
-        }
-
-      }
     }
 
 
@@ -781,60 +728,7 @@ var isMatchmakingBusy = false
 
     
 
-    
-    
-    var targetIDX = possibleChoices[Math.floor(Math.random() * possibleChoices.length)] // NEEDS TO ACCOUNT FOR FAINTED YOKAI!
-
-
-    // --- Check for pin target override ---
-    if (turnOrder[0]["UID"] == p1UID) {
-      if ( bInst["PLAYER_ONE"]["PINNED"] > -1) {
-        targetIDX = bInst["PLAYER_ONE"]["PINNED"]
-      }
-    } else {
-      if ( bInst["PLAYER_TWO"]["PINNED"] > -1) {
-        targetIDX = bInst["PLAYER_TWO"]["PINNED"]
-      }
-    }
-
-    // --- Check for various taunts ---
-    if ( targetSide == 1 ) {
-
-      for ( var i = 0; i < 3; i++ ) {
-        for ( var x = 0; x < p1Team[i]["items"].length; x++ ) {
-
-          if ( p1Team[i]["items"][x]["displayName"] == "Stinging Soul" ) {
-            targetIDX = i
-          }
-
-        }
-        for ( var x = 0; x < p1Team[i]["currentInspirits"].length; x++ ) {
-
-          if ( p1Team[i]["currentInspirits"][x]["tag"][0] == "target" ) {
-            targetIDX = i
-          }
-
-        }
-      }
-
-    } else {
-      for ( var i = 0; i < 3; i++ ) {
-        for ( var x = 0; x < p2Team[i]["items"].length; x++ ) {
-
-          if ( p2Team[i]["items"][x]["displayName"] == "Stinging Soul" ) {
-            targetIDX = i
-          }
-
-        }
-        for ( var x = 0; x < p2Team[i]["currentInspirits"].length; x++ ) {
-
-          if ( p2Team[i]["currentInspirits"][x]["tag"][0] == "target" ) {
-            targetIDX = i
-          }
-
-        }
-      }
-    }
+  
 
     // --- Check for inaction ---
     if ( targetSide == 1 ) {
@@ -1700,7 +1594,6 @@ var isMatchmakingBusy = false
 
       case "soultimate":
 
-        console.log(moxieBuff)
 
         turnOrder[0]["guard"] = 1
         turnOrder[0]["loafing"] = false
@@ -2985,6 +2878,44 @@ var isMatchmakingBusy = false
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+function pickTargetIndex(team) {
+    let aliveIdxs = team
+        .map((member, idx) => ({ idx, member }))
+        .filter(obj => obj.member.hp > 0)
+        .map(obj => obj.idx);
+
+    if (aliveIdxs.length === 0) return null; // no valid targets
+
+    let aliveCount = aliveIdxs.length;
+
+    // Step 1: Get forced targets (taunt/stinging)
+    let forcedIdxs = aliveIdxs.filter(idx => {
+        let member = team[idx];
+        let hasTaunt = member.currentInspirits.some(s => s.tags === "target");
+        let hasStinging = member.items.some(i => i.displayName === "Stinging Soul");
+        let hasStealth = member.items.some(i => i.displayName === "Stealth Soul");
+
+        // Stealth + Taunt/Stinging cancel each other
+        if (hasStealth && (hasTaunt || hasStinging)) return false;
+
+        return hasTaunt || hasStinging;
+    });
+
+    if (forcedIdxs.length > 0) {
+        return forcedIdxs[Math.floor(Math.random() * forcedIdxs.length)];
+    }
+
+    // Step 2: Apply stealth filtering for normal targets
+    let validIdxs = aliveIdxs.filter(idx => {
+        let member = team[idx];
+        let hasStealth = member.items.some(i => i.displayName === "Stealth Soul");
+        return !(hasStealth && aliveCount > 1);
+    });
+
+    if (validIdxs.length === 0) return null;
+    return validIdxs[Math.floor(Math.random() * validIdxs.length)];
+}
+
 // Server functions
 
 //VALIDATE_TEAM
@@ -3316,7 +3247,6 @@ function technique(p1Team, p2Team, targetSide, targetIDX, turnOrder, critRoll) {
 }
 
 function inspirit(p1Team, p2Team, targetSide, targetIDX, turnOrder) {
-  console.log("Insp: " + turnOrder[0]["insp"])
   
   var type = INSPIRIT_DATABASE[turnOrder[0]["insp"]]["type"]
 
@@ -3374,7 +3304,7 @@ function inspirit(p1Team, p2Team, targetSide, targetIDX, turnOrder) {
   }
   
 
-  switch ( INSPIRIT_DATABASE[turnOrder[0]["insp"]]["tags"][0] ) {
+  switch ( INSPIRIT_DATABASE[turnOrder[0]["insp"]]["tags"] ) {
     case "strUp":
 
       if ( inspTarget == 1) {
