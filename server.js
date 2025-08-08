@@ -2869,6 +2869,17 @@ var isMatchmakingBusy = false
       p2.emit("yokai_poked_soul", { myTeam: p2Team, otherTeam: p1Team, chatMessage: "<em id = 'tech'>" + bInst["PLAYER_TWO"]["USERNAME"] + " poked the opposing " + p1Team[sentIDX]["displayName"] + " for soultimate charge!" })
     }
   });
+
+
+  socket.on('get_player_count_data', () => {
+
+    var p = connectedClients.get(socket.id)
+    p.emit("return_player_count_data", { totalOnline: connectedClients.size, activeBattles: Object.keys(battles).length, playersLooking: matchmakingQueue.length})
+
+  });
+
+
+
 });
 
 
@@ -2884,7 +2895,7 @@ var isMatchmakingBusy = false
 function pickTargetIndex(team) {
     let aliveIdxs = team
         .map((member, idx) => ({ idx, member }))
-        .filter(obj => obj.member.hp > 0)
+        .filter(obj => obj.member.currentHP > 0)
         .map(obj => obj.idx);
 
     if (aliveIdxs.length === 0) return null; // no valid targets
